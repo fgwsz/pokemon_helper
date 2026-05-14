@@ -9,4 +9,8 @@
 #include"type_count.hpp"
 #include"type_chart.hpp"
 
+#include"get_weaknesses.hpp"
+#include"get_coverage_gaps.hpp"
+
 #include"read_ull.hpp"
+#include"print.hpp"

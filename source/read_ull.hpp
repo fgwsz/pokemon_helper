@@ -15,7 +15,7 @@ unsigned long long read_ull(
     unsigned long long ret=0;
     std::string str={};
     while(true){
-        std::cout<<"Please input number (unsigned long long): ";
+        std::cout<<"Please input number(unsigned long long): ";
         std::getline(std::cin,str);
         try{
             ret=std::stoull(str);
