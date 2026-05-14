@@ -1,8 +1,11 @@
-#include <iostream>
-
 #include"pokemon.hpp"
 
 int main() {
-    std::cout<<"hello!\n";
+    auto ull=pokemon::read_ull(
+        [](unsigned long long num){
+            return num>=1&&num<=18;
+        },
+        "num not in [1,18]"
+    );
     return 0;
 }
