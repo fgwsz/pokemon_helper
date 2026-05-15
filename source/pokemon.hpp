@@ -12,5 +12,6 @@
 #include"get_weaknesses.hpp"
 #include"get_coverage_gaps.hpp"
 
-#include"read_ull.hpp"
 #include"print.hpp"
+#include"read_ull.hpp"
+#include"read_types.hpp"

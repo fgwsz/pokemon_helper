@@ -1,7 +1,6 @@
 #pragma once
 
 #include<cstddef>
-#include<iostream>
 #include<vector>
 
 #include"what.hpp"
@@ -11,36 +10,43 @@
 
 namespace pokemon{
 
-void print_gen(Gen gen){
+template<typename OutputStream>
+OutputStream& operator<<(OutputStream& os,Gen gen){
     if(gen==Gen::_1){
-        std::cout<<"gen 1";
+        os<<"gen 1";
     }else if(gen==Gen::_2_5){
-        std::cout<<"gen 2~5";
+        os<<"gen 2~5";
     }else if(gen==Gen::_6){
-        std::cout<<"gen 6^";
+        os<<"gen 6^";
     }else{
         throw what("unknown gen");
     }
+    return os;
 }
 
-void print_type(Type type){
-    std::cout<<type_to_type_sv(type);
+template<typename OutputStream>
+OutputStream& operator<<(OutputStream& os,Type type){
+    os<<type_to_type_sv(type);
+    return os;
 }
 
-void print_types(std::vector<Type>const& types){
+template<typename OutputStream>
+OutputStream& operator<<(OutputStream& os,std::vector<Type>const& types){
     if(types.size()==1){
-        return print_type(types[0]);
+        os<<types[0];
+        return os;
     }
-    std::cout<<"[";
+    os<<"[";
     std::size_t index=0;
     for(auto const& type:types){
-        print_type(type);
+        os<<type;
         if(index+1!=types.size()){
-            std::cout<<", ";
+            os<<", ";
         }
         ++index;
     }
-    std::cout<<"]";
+    os<<"]";
+    return os;
 }
 
 }//namespace pokemon

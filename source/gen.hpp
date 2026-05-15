@@ -10,7 +10,7 @@ enum class Gen:unsigned char{
     _6   //第六世代及以后
 };
 
-Gen num_to_gen(unsigned char num){
+Gen num_to_gen(unsigned long long num){
     if(num==1){
         return Gen::_1;
     }else if(num>=2&&num<=5){

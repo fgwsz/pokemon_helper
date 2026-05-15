@@ -8,6 +8,7 @@
 namespace pokemon{
 
 unsigned long long read_ull(
+    std::string_view help_msg="",
     std::function<bool(unsigned long long)>const& check_fn
         =[](unsigned long long){return true;},
     std::string_view error_msg=""
@@ -15,11 +16,12 @@ unsigned long long read_ull(
     unsigned long long ret=0;
     std::string str={};
     while(true){
-        std::cout<<"Please input number(unsigned long long): ";
+        std::cout<<help_msg<<(help_msg.empty()?"":"\n");
+        std::cout<<"Please enter number(unsigned long long)\n> ";
         std::getline(std::cin,str);
         try{
             ret=std::stoull(str);
-            std::cout<<"Your number is {"<<ret<<"}.\n";
+            std::cout<<"\nEnter number is {"<<ret<<"}.\n";
             if(check_fn(ret)){
                 return ret;
             }else{
@@ -30,7 +32,7 @@ unsigned long long read_ull(
                 std::cout<<", please try again.\n";
             }
         }catch(std::invalid_argument const&){
-            std::cout<<"Invalid input (not a number), please try again.\n";
+            std::cout<<"Invalid input(not a number), please try again.\n";
         }catch(std::out_of_range const&){
             std::cout<<"Number too large, please try again.\n";
         }
