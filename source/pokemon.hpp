@@ -8,6 +8,7 @@
 #include"type_sv.hpp"
 #include"type_count.hpp"
 #include"type_chart.hpp"
+#include"type_matchup.hpp"
 
 #include"get_weaknesses.hpp"
 #include"get_coverage_gaps.hpp"

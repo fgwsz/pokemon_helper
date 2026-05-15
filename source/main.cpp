@@ -36,12 +36,16 @@ int main(void){
         current_gen,
         "Please enter pokemon atk types.",
         [](std::vector<pokemon::Type>const& types){
-            return types.size()>=1;
+            return types.size()>=1&&types.size()<=4;
         },
-        "pokemon atk type has 1^ single type"
+        "pokemon atk type has 1~4 single type"
     );
     //显示打击盲点信息
-    std::cout<<"Coverage gaps: "
-        <<pokemon::get_coverage_gaps(current_gen,atk_types)<<'\n';
+    auto coverage_gaps=pokemon::get_coverage_gaps(current_gen,atk_types);
+    std::cout<<"Coverage gaps: "<<coverage_gaps<<'\n';
+    //显示属性推荐
+    if(coverage_gaps.empty()){
+        return 0;
+    }
     return 0;
 }

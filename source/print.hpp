@@ -7,6 +7,7 @@
 #include"gen.hpp"
 #include"type.hpp"
 #include"type_sv.hpp"
+#include"type_matchup.hpp"
 
 namespace pokemon{
 
@@ -41,6 +42,35 @@ OutputStream& operator<<(OutputStream& os,std::vector<Type>const& types){
     for(auto const& type:types){
         os<<type;
         if(index+1!=types.size()){
+            os<<", ";
+        }
+        ++index;
+    }
+    os<<"]";
+    return os;
+}
+
+template<typename OutputStream>
+OutputStream& operator<<(OutputStream& os,TypeMatchup const& type_matchup){
+    os<<"`"<<type_matchup.attack_type<<"->"<<type_matchup.defense_type<<":"
+        <<type_matchup.multiplier<<"`";
+    return os;
+}
+
+template<typename OutputStream>
+OutputStream& operator<<(
+    OutputStream& os,
+    std::vector<TypeMatchup>const& type_matchups
+){
+    if(type_matchups.size()==1){
+        os<<type_matchups[0];
+        return os;
+    }
+    os<<"[";
+    std::size_t index=0;
+    for(auto const& type_matchup:type_matchups){
+        os<<type_matchup;
+        if(index+1!=type_matchups.size()){
             os<<", ";
         }
         ++index;
