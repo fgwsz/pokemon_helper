@@ -14,6 +14,7 @@
 #include"get_weaknesses.hpp"
 #include"get_super_effectives.hpp"
 #include"get_coverage_gaps.hpp"
+#include"get_recommend_info.hpp"
 
 #include"print.hpp"
 #include"read_ull.hpp"

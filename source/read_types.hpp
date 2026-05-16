@@ -174,7 +174,8 @@ Example: b,da,dr
         std::getline(std::cin,str);
         try{
             ret=parse_types(str);
-            std::cout<<"\nEnter types is {"<<ret<<"}.\n";
+            std::cout<<"\nEnter type"
+                <<(ret.size()>1?"s":"")<<" is {"<<ret<<"}.\n";
             for(auto const& type:ret){
                 if(enum_value(type)>=type_count){
                     std::cout

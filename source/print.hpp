@@ -3,12 +3,15 @@
 #include<cstddef>
 #include<vector>
 #include<tuple>
+#include<set>
+#include<functional>
 
 #include"what.hpp"
 #include"gen.hpp"
 #include"type.hpp"
 #include"type_sv.hpp"
 #include"type_matchup.hpp"
+#include"get_recommend_info.hpp"
 
 namespace pokemon{
 
@@ -85,7 +88,41 @@ OutputStream& operator<<(
     OutputStream& os,
     std::tuple<std::set<Type>,std::vector<TypeMatchup>>const& tuple
 ){
-    os<<std::get<0>(tuple)<<", "<<std::get<1>(tuple);
+    os<<"(\n    "<<std::get<0>(tuple)<<",\n    "<<std::get<1>(tuple)<<"\n)";
+    return os;
+}
+
+template<typename OutputStream>
+OutputStream& operator<<(
+    OutputStream& os,
+    RecommendInfoEntry const& info_entry
+){
+    os<<info_entry.type<<": {\n"
+        <<"    coverage gaps: "<<info_entry.coverage_gaps<<'\n';
+    if(!info_entry.coverage_gap_super_matchups.empty()){
+        os<<"    super matchups: "
+            <<info_entry.coverage_gap_super_matchups<<'\n';
+    }
+    if(!info_entry.weaknesses.empty()){
+        os<<"    weaknesses: "<<info_entry.weaknesses<<'\n';
+    }
+    if(!info_entry.weakness_super_matchups.empty()){
+        os<<"    super matchups: "<<info_entry.weakness_super_matchups<<'\n';
+    }
+    os<<"}";
+    return os;
+}
+
+template<typename OutputStream>
+OutputStream& operator<<(
+    OutputStream& os,
+    std::set<RecommendInfoEntry,std::greater<RecommendInfoEntry>> const& info
+){
+    std::size_t rank=1;
+    for(auto const& info_entry:info){
+        os<<rank<<". "<<info_entry<<'\n';
+        ++rank;
+    }
     return os;
 }
 

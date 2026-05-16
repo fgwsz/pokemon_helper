@@ -26,12 +26,6 @@ int main(void){
             },
             "pokemon owner type(s) must be exactly 1 or 2 types"
         );
-        //显示防御优势属性
-        std::cout<<"Defensive advantages: "
-            <<pokemon::get_defensive_advantages(current_gen,owner_type)<<'\n';
-        //显示弱点信息
-        std::cout<<"Weaknesses: "
-            <<pokemon::get_weaknesses(current_gen,owner_type)<<'\n';
         //读取宝可梦攻击招式属性信息
         std::set<pokemon::Type> atk_types=pokemon::read_types(
             current_gen,
@@ -41,9 +35,15 @@ int main(void){
             },
             "pokemon attcak type(s) must be 1 to 4 types"
         );
+        //显示防御优势属性
+        std::cout<<"Defensive advantages: "
+            <<pokemon::get_defensive_advantages(current_gen,owner_type)<<'\n';
         //显示有效打击信息
         std::cout<<"Super effectives: "
             <<pokemon::get_super_effectives(current_gen,atk_types)<<'\n';
+        //显示弱点信息
+        auto weaknesses=pokemon::get_weaknesses(current_gen,owner_type);
+        std::cout<<"Weaknesses: "<<weaknesses<<'\n';
         //显示打击盲点信息
         auto coverage_gaps=pokemon::get_coverage_gaps(current_gen,atk_types);
         std::cout<<"Coverage gaps: "<<coverage_gaps<<'\n';
@@ -51,6 +51,14 @@ int main(void){
         if(std::get<0>(coverage_gaps).empty()){
             return 0;
         }
+        //显示攻击招式类型推荐信息
+        std::cout<<"Top recommended attack types:\n"
+            <<pokemon::get_recommend_info(
+                current_gen,
+                atk_types,
+                std::get<0>(weaknesses),
+                std::get<0>(coverage_gaps)
+            );
     }catch(std::string const& what){
         std::cout<<"What: "<<what<<'\n';
     }
