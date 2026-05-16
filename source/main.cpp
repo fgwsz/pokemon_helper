@@ -56,16 +56,16 @@ int main(void){
             coverage_gaps=pokemon::get_coverage_gaps(current_gen,atk_types);
             std::cout<<"Coverage gaps: "<<coverage_gaps<<'\n';
             //显示攻击类型推荐信息
-            if(std::get<0>(coverage_gaps).empty()){
-                return 0;
+            if(!std::get<0>(coverage_gaps).empty()){
+                std::cout<<"Top recommended attack types:\n"
+                    <<pokemon::get_recommend_info(
+                        current_gen,
+                        atk_types,
+                        std::get<0>(coverage_gaps),
+                        std::get<0>(weaknesses)
+                    )
+                ;
             }
-            std::cout<<"Top recommended attack types:\n"
-                <<pokemon::get_recommend_info(
-                    current_gen,
-                    atk_types,
-                    std::get<0>(coverage_gaps),
-                    std::get<0>(weaknesses)
-                );
             //提示用户是否继续/退出
             std::cout<<"Do you want to continue?(y/n)\n> ";
             std::getline(std::cin,choice);
