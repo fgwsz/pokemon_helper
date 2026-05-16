@@ -15,7 +15,7 @@
 namespace pokemon{
 
 std::tuple<std::set<Type>,std::vector<TypeMatchup>>
-get_weaknesses(Gen gen,std::set<Type>const& types){
+get_defensive_advantages(Gen gen,std::set<Type>const& types){
     if(!(types.size()==1||types.size()==2)){
         throw what("unknown types");
     }
@@ -33,7 +33,7 @@ get_weaknesses(Gen gen,std::set<Type>const& types){
         for(auto const& type:types){
             matchup.multiplier*=type_chart::at(gen,matchup.attack_type,type);
         }
-        if(matchup.multiplier>1){
+        if(matchup.multiplier<1){
             ret_types.emplace(matchup.attack_type);
             ret_matchups.emplace_back(matchup);
         }

@@ -10,7 +10,9 @@
 #include"type_chart.hpp"
 #include"type_matchup.hpp"
 
+#include"get_defensive_advantages.hpp"
 #include"get_weaknesses.hpp"
+#include"get_super_effectives.hpp"
 #include"get_coverage_gaps.hpp"
 
 #include"print.hpp"

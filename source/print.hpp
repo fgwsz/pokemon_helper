@@ -2,6 +2,7 @@
 
 #include<cstddef>
 #include<vector>
+#include<tuple>
 
 #include"what.hpp"
 #include"gen.hpp"
@@ -32,9 +33,9 @@ OutputStream& operator<<(OutputStream& os,Type type){
 }
 
 template<typename OutputStream>
-OutputStream& operator<<(OutputStream& os,std::vector<Type>const& types){
+OutputStream& operator<<(OutputStream& os,std::set<Type>const& types){
     if(types.size()==1){
-        os<<types[0];
+        os<<*(types.cbegin());
         return os;
     }
     os<<"[";
@@ -76,6 +77,15 @@ OutputStream& operator<<(
         ++index;
     }
     os<<"]";
+    return os;
+}
+
+template<typename OutputStream>
+OutputStream& operator<<(
+    OutputStream& os,
+    std::tuple<std::set<Type>,std::vector<TypeMatchup>>const& tuple
+){
+    os<<std::get<0>(tuple)<<", "<<std::get<1>(tuple);
     return os;
 }
 

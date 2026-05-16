@@ -3,6 +3,7 @@
 #include<string>
 #include<string_view>
 #include<vector>
+#include<set>
 #include<cctype>
 #include<algorithm>
 #include<stdexcept>
@@ -89,8 +90,8 @@ std::string_view trim(std::string_view s){
 }
 
 //解析逗号分隔的类型列表(例如"b,da,dr"或"bu,dark,dra")
-std::vector<Type> parse_types(std::string_view input){
-    std::vector<Type> result={};
+std::set<Type> parse_types(std::string_view input){
+    std::set<Type> ret={};
     std::string_view remaining=input;
     std::size_t comma=0;
     std::string_view token={};
@@ -107,7 +108,7 @@ std::vector<Type> parse_types(std::string_view input){
             matched=false;
             for(auto const& rule:type_rules){
                 if(match_type(rule,token,out)){
-                    result.push_back(out);
+                    ret.emplace(out);
                     matched=true;
                     break;
                 }
@@ -119,20 +120,14 @@ std::vector<Type> parse_types(std::string_view input){
         if(comma==std::string_view::npos)break;
         remaining=remaining.substr(comma+1);
     }
-    //去除重复成员
-    if(result.size()>1){
-        std::sort(result.begin(),result.end());
-        auto last=std::unique(result.begin(),result.end());
-        result.erase(last,result.end());
-    }
-    return result;
+    return ret;
 }
 
-std::vector<Type> read_types(
+std::set<Type> read_types(
     Gen gen,
     std::string_view help_msg="",
-    std::function<bool(std::vector<Type>const&)>const& check_fn
-        =[](std::vector<Type>const&){return true;},
+    std::function<bool(std::set<Type>const&)>const& check_fn
+        =[](std::set<Type>const&){return true;},
     std::string_view error_msg=""
 ){
     constexpr char help_gen_1[]=
@@ -166,7 +161,7 @@ Example: b,da,dr
     }else{
         throw what("unknown gen");
     }
-    std::vector<Type> ret={};
+    std::set<Type> ret={};
     std::string str={};
     auto type_count=enum_value(gen_to_type_count(gen));
     bool continue_flag=false;
