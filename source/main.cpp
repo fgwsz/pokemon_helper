@@ -63,8 +63,8 @@ int main(void){
                 <<pokemon::get_recommend_info(
                     current_gen,
                     atk_types,
-                    std::get<0>(weaknesses),
-                    std::get<0>(coverage_gaps)
+                    std::get<0>(coverage_gaps),
+                    std::get<0>(weaknesses)
                 );
             //提示用户是否继续/退出
             std::cout<<"Do you want to continue?(y/n)\n> ";

@@ -69,8 +69,8 @@ std::set<RecommendInfoEntry,std::greater<RecommendInfoEntry>>
 get_recommend_info(
     Gen gen,
     std::set<Type> const& current_attack_types,
-    std::set<Type> const& target_weaknesses,
-    std::set<Type> const& target_coverage_gaps
+    std::set<Type> const& target_coverage_gaps,
+    std::set<Type> const& target_weaknesses
 ){
     unsigned char type_count=enum_value(gen_to_type_count(gen));
     std::set<RecommendInfoEntry,std::greater<RecommendInfoEntry>> ret={};
