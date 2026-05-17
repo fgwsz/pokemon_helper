@@ -6,7 +6,7 @@ if [ ! -d "$build_path" ]; then
     mkdir -p "$build_path"
 fi
 cd $build_path
-cmake ../../.. -D CMAKE_BUILD_TYPE=Release
+cmake ../../.. -D CMAKE_BUILD_TYPE=Release -D CMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc"
 make
 cd ../../..
 mv "$build_path/$project_name" "$root_path/binary-release"
