@@ -8,7 +8,7 @@
 #include<algorithm>
 #include<stdexcept>
 #include<functional>
-#include <algorithm>
+#include<algorithm>
 
 #include"what.hpp"
 #include"type.hpp"
@@ -23,25 +23,25 @@ struct TypeRule{
     Type type;
 };
 
-static const std::vector<TypeRule> type_rules={
-    {"b","ug",Type::Bug},
-    {"da","rk",Type::Dark},
-    {"dr","agon",Type::Dragon},
+static std::vector<TypeRule> const type_rules={
+    {"b","ug",     Type::Bug     },
+    {"da","rk",    Type::Dark    },
+    {"dr","agon",  Type::Dragon  },
     {"e","lectric",Type::Electric},
-    {"fa","iry",Type::Fairy},
+    {"fa","iry",   Type::Fairy   },
     {"fig","hting",Type::Fighting},
-    {"fir","e",Type::Fire},
-    {"fl","ying",Type::Flying},
-    {"gh","ost",Type::Ghost},
-    {"gra","ss",Type::Grass},
-    {"gro","und",Type::Ground},
-    {"i","ce",Type::Ice},
-    {"n","ormal",Type::Normal},
-    {"po","ison",Type::Poison},
-    {"ps","ychic",Type::Psychic},
-    {"r","ock",Type::Rock},
-    {"s","teel",Type::Steel},
-    {"w","ater",Type::Water}
+    {"fir","e",    Type::Fire    },
+    {"fl","ying",  Type::Flying  },
+    {"gh","ost",   Type::Ghost   },
+    {"gra","ss",   Type::Grass   },
+    {"gro","und",  Type::Ground  },
+    {"i","ce",     Type::Ice     },
+    {"n","ormal",  Type::Normal  },
+    {"po","ison",  Type::Poison  },
+    {"ps","ychic", Type::Psychic },
+    {"r","ock",    Type::Rock    },
+    {"s","teel",   Type::Steel   },
+    {"w","ater",   Type::Water   }
 };
 
 //不区分大小写比较两个字符串视图是否相等
@@ -64,7 +64,7 @@ bool is_prefix_of(std::string_view str,std::string_view suffix){
 }
 
 //尝试匹配规则,成功则输出对应类型
-bool match_type(const TypeRule& rule,std::string_view input,Type& out){
+bool match_type(TypeRule const& rule,std::string_view input,Type& out){
     if(input.size()<rule.prefix.size()){
         return false;
     }
@@ -81,11 +81,12 @@ bool match_type(const TypeRule& rule,std::string_view input,Type& out){
 
 //去除字符串首尾空格
 std::string_view trim(std::string_view s){
-    std::size_t start=s.find_first_not_of(" \t");
+    constexpr std::string_view whitespace=" \t\n\r\f\v";
+    std::size_t start=s.find_first_not_of(whitespace);
     if(start==std::string_view::npos){
         return "";
     }
-    std::size_t end=s.find_last_not_of(" \t");
+    std::size_t end=s.find_last_not_of(whitespace);
     return s.substr(start,end-start+1);
 }
 
@@ -114,10 +115,14 @@ std::set<Type> parse_types(std::string_view input){
                 }
             }
             if(!matched){
-                throw what("Invalid type name:"+std::string(token));
+                throw std::runtime_error(
+                    "invalid type name: "+std::string(token)
+                );
             }
         }
-        if(comma==std::string_view::npos)break;
+        if(comma==std::string_view::npos){
+            break;
+        }
         remaining=remaining.substr(comma+1);
     }
     return ret;
@@ -197,8 +202,10 @@ Example: b,da,dr
                 }
                 std::cout<<", please try again.\n";
             }
-        }catch(...){
-            std::cout<<"Invalid input, please try again.\n";
+        }catch(std::runtime_error const& e){
+            std::cout<<"Invalid input("
+                <<e.what()
+                <<"), please try again.\n";
         }
     }
 }
