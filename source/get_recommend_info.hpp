@@ -39,23 +39,6 @@ bool operator>(RecommendInfoEntry const& lhs,RecommendInfoEntry const& rhs){
         return lhs.coverage_gap_super_matchups.size()
             >rhs.coverage_gap_super_matchups.size();
     }
-    float lhs_multiplier=0;
-    float rhs_multiplier=0;
-    auto lhs_itr=lhs.coverage_gap_super_matchups.cbegin();
-    auto rhs_itr=rhs.coverage_gap_super_matchups.cbegin();
-    for(
-        std::size_t index=0;
-        index<lhs.coverage_gap_super_matchups.size();
-        ++index
-    ){
-        lhs_multiplier+=lhs_itr->multiplier;
-        rhs_multiplier+=rhs_itr->multiplier;
-        ++lhs_itr;
-        ++rhs_itr;
-    }
-    if(lhs_multiplier!=rhs_multiplier){
-        return lhs_multiplier>rhs_multiplier;
-    }
     if(lhs.weaknesses.size()!=rhs.weaknesses.size()){
         return lhs.weaknesses.size()>rhs.weaknesses.size();
     }
@@ -66,20 +49,6 @@ bool operator>(RecommendInfoEntry const& lhs,RecommendInfoEntry const& rhs){
         return lhs.weakness_super_matchups.size()
             >rhs.weakness_super_matchups.size();
     }
-    lhs_multiplier=0;
-    rhs_multiplier=0;
-    lhs_itr=lhs.weakness_super_matchups.cbegin();
-    rhs_itr=rhs.weakness_super_matchups.cbegin();
-    for(std::size_t index=0;index<lhs.weakness_super_matchups.size();++index){
-        lhs_multiplier+=lhs_itr->multiplier;
-        rhs_multiplier+=rhs_itr->multiplier;
-        ++lhs_itr;
-        ++rhs_itr;
-    }
-    if(lhs_multiplier!=rhs_multiplier){
-        return lhs_multiplier>rhs_multiplier;
-    }
-
     return enum_value(lhs.type)>enum_value(rhs.type);
 }
 
