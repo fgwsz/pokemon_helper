@@ -8,7 +8,6 @@
 #include"gen.hpp"
 #include"type.hpp"
 #include"type_count.hpp"
-#include"type_chart.hpp"
 #include"type_matchup.hpp"
 
 namespace pokemon{
@@ -21,15 +20,9 @@ get_super_effectives(Gen gen,std::set<Type>const& types){
     TypeMatchup matchup={};
     for(unsigned char index=0;index<type_count;++index){
         for(auto const& type:types){
-            matchup.attack_type=type;
-            matchup.defense_type={static_cast<Type>(index)};
-            matchup.multiplier=type_chart::at(
-                gen,
-                matchup.attack_type,
-                *(matchup.defense_type.cbegin())
-            );
+            matchup.set(gen,type,make_type(index));
             if(matchup.multiplier>1){
-                ret_types.emplace(*(matchup.defense_type.cbegin()));
+                ret_types.emplace(matchup.get_first_defense_type());
                 ret_matchups.emplace_back(matchup);
             }
         }

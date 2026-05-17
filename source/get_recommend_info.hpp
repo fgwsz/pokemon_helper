@@ -95,7 +95,7 @@ get_recommend_info(
     RecommendInfoEntry entry={};
     TypeMatchup matchup={};
     for(unsigned char index=0;index<type_count;++index){
-        entry.type=static_cast<Type>(index);
+        entry.type=make_type(index);
         if(current_attack_types.contains(entry.type)){
             continue;
         }
@@ -104,13 +104,7 @@ get_recommend_info(
         entry.weaknesses.clear();
         entry.weakness_super_matchups.clear();
         for(auto const& def:target_coverage_gaps){
-            matchup.attack_type=entry.type;
-            matchup.defense_type={def};
-            matchup.multiplier=type_chart::at(
-                gen,
-                matchup.attack_type,
-                *(matchup.defense_type.cbegin())
-            );
+            matchup.set(gen,entry.type,def);
             if(matchup.multiplier>=1){
                 entry.coverage_gaps.emplace(def);
                 if(matchup.multiplier>1){
@@ -119,13 +113,7 @@ get_recommend_info(
             }
         }
         for(auto const& def:target_weaknesses){
-            matchup.attack_type=entry.type;
-            matchup.defense_type={def};
-            matchup.multiplier=type_chart::at(
-                gen,
-                matchup.attack_type,
-                *(matchup.defense_type.cbegin())
-            );
+            matchup.set(gen,entry.type,def);
             if(matchup.multiplier>=1){
                 entry.weaknesses.emplace(def);
                 if(matchup.multiplier>1){

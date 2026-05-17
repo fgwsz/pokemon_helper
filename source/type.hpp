@@ -1,5 +1,8 @@
 #pragma once
 
+#include"enum_value.hpp"
+#include"what.hpp"
+
 namespace pokemon{
 
 enum class Type:unsigned char{
@@ -24,5 +27,12 @@ enum class Type:unsigned char{
     //gen 6^
     Fairy   =17 //妖精
 };
+
+Type make_type(unsigned char type_index){
+    if(type_index>enum_value(Type::Fairy)){
+        throw what("unknown type index");
+    }
+    return static_cast<Type>(type_index);
+}
 
 }//namespace pokemon

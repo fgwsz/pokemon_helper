@@ -9,7 +9,6 @@
 #include"gen.hpp"
 #include"type.hpp"
 #include"type_count.hpp"
-#include"type_chart.hpp"
 #include"type_matchup.hpp"
 
 namespace pokemon{
@@ -27,12 +26,7 @@ get_defensive_advantages(Gen gen,std::set<Type>const& types){
         index<enum_value(gen_to_type_count(gen));
         ++index
     ){
-        matchup.attack_type=static_cast<Type>(index);
-        matchup.defense_type=types;
-        matchup.multiplier=1;
-        for(auto const& type:types){
-            matchup.multiplier*=type_chart::at(gen,matchup.attack_type,type);
-        }
+        matchup.set(gen,make_type(index),types);
         if(matchup.multiplier<1){
             ret_types.emplace(matchup.attack_type);
             ret_matchups.emplace_back(matchup);

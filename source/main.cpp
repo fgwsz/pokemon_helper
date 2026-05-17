@@ -3,6 +3,7 @@
 #include<set>
 #include<vector>
 #include<string>
+#include<exception>
 
 #include"pokemon.hpp"
 
@@ -75,6 +76,8 @@ int main(void){
         }
     }catch(std::string const& what){
         std::cout<<"What: "<<what<<'\n';
+    }catch(std::exception const& exception){
+        std::cout<<"What: "<<exception.what()<<'\n';
     }
     return 0;
 }

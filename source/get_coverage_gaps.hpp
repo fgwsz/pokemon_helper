@@ -21,7 +21,7 @@ get_coverage_gaps(Gen gen,std::set<Type>const& types){
         for(unsigned char index=0;index<type_count;++index){
             if(
                 map[index]==0
-                &&type_chart::at(gen,type,static_cast<Type>(index))>=1
+                &&type_chart::at(gen,type,make_type(index))>=1
             ){
                 map[index]=1;
             }
@@ -33,14 +33,8 @@ get_coverage_gaps(Gen gen,std::set<Type>const& types){
     for(unsigned char index=0;index<type_count;++index){
         if(map[index]==0){
             for(auto const& type:types){
-                matchup.attack_type=type;
-                matchup.defense_type={{static_cast<Type>(index)}};
-                matchup.multiplier=type_chart::at(
-                    gen,
-                    matchup.attack_type,
-                    *(matchup.defense_type.cbegin())
-                );
-                ret_types.emplace(*(matchup.defense_type.cbegin()));
+                matchup.set(gen,type,make_type(index));
+                ret_types.emplace(matchup.get_first_defense_type());
                 ret_matchups.emplace_back(matchup);
             }
         }
